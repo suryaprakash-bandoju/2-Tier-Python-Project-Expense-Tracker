@@ -21,7 +21,7 @@ pipeline  {
             }
         }
 
-        stage("Git Checkout") {
+        stage("Syntax Check") {
             steps {
 
                 sh 'python3 -m py_compile app.py'
