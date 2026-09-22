@@ -1,32 +1,33 @@
-pipeline  {
+pipeline {
 
     agent any
 
     stages {
 
-        stage("Git Checkout") {
+        stage('Creating Virtual Environment') {
             steps {
-
-                git branch: "main",
-                    url: 'https://github.com/suryaprakash-bandoju/2-Tier-Python-Project-Expense-Tracker.git'
-
-            }
-        }
-        
-        stage("Installing Dependencies") {
-            steps {
-
-                sh 'pip3 install -r requirements.txt'
-                
+                sh 'python3 -m venv .venv'
             }
         }
 
-        stage("Syntax Check") {
+        stage('Installing Dependencies') {
             steps {
-
-                sh 'python3 -m py_compile app.py'
-                
+                sh '.venv/bin/pip install -r requirements.txt'
             }
         }
+
+        stage('Checking Python Environment') {
+            steps {
+                sh '.venv/bin/python --version'
+                sh '.venv/bin/pip --version'
+            }
+        }
+
+        stage('Syntax Check') {
+            steps {
+                sh '.venv/bin/python -m py_compile app.py'
+            }
+        }
+
     }
 }
